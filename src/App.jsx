@@ -1,10 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 function App() {
   const [mode, setMode] = useState("text");
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
+
+  const notesRef = useRef(null);
+
+  useEffect(() => {
+    if (notesRef.current) {
+      notesRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
 
   function handleModeChange(e) {
     setMode(e.target.value);
@@ -32,6 +40,7 @@ function App() {
         {elements.map((el, i) => (
           <p key={i} className='note-item'>{el.content}</p>
         ))}
+        <div id='notes-ending' ref={notesRef}></div>
       </div>
 
       <form onSubmit={handleSubmit}>
