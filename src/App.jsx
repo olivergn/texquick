@@ -25,10 +25,13 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!input.trim()) return;
-    console.log(input); // TEST
     const newElement = { mode, content: input };
     setElements([...elements, newElement]);
     setInput("");
+  }
+
+  function renderNote(el, i) {
+    return (<p key={i} className='note-item'>{el.content}</p>);
   }
 
   return (
@@ -37,9 +40,7 @@ function App() {
       <div id="bg-right"></div>
 
       <div className='notes-container'>
-        {elements.map((el, i) => (
-          <p key={i} className='note-item'>{el.content}</p>
-        ))}
+        {elements.map((el, i) => renderNote(el, i))}
         <div id='notes-ending' ref={notesRef}></div>
       </div>
 
