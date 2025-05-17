@@ -17,8 +17,8 @@ function App() {
   });
 
   function parseMath(str) {
-    return str.replace("\\[", "\\begin{bmatrix}")
-    .replace("\\]", "\\end{bmatrix}");
+    return str.replaceAll("\\[", "\\begin{bmatrix}")
+    .replaceAll("\\]", "\\end{bmatrix}");
   }
 
   function handleModeChange(e) {
