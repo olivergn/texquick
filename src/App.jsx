@@ -42,7 +42,17 @@ function App() {
       el.content = parseMath(el.content);
       return (<div key={i} className='note-item'><BlockMath math={el.content} /></div>);
     } else {
-      return (<div key={i} className='note-item'><p>{el.content}</p></div>);
+      if (el.content.startsWith("####")) {
+        return (<div key={i} className='note-item'><h4>{el.content.replace("####", "")}</h4></div>);
+      } else if (el.content.startsWith("###")) {
+        return (<div key={i} className='note-item'><h3>{el.content.replace("###", "")}</h3></div>);
+      } else if (el.content.startsWith("##")) {
+        return (<div key={i} className='note-item'><h2>{el.content.replace("##", "")}</h2></div>);
+      } else if (el.content.startsWith("#")) {
+        return (<div key={i} className='note-item'><h1>{el.content.replace("#", "")}</h1></div>);
+      } else {
+        return (<div key={i} className='note-item'><p>{el.content}</p></div>);
+      }
     }
   }
 
