@@ -16,6 +16,11 @@ function App() {
     }
   });
 
+  function parseMath(str) {
+    return str.replace("\\[", "\\begin{bmatrix}")
+    .replace("\\]", "\\end{bmatrix}");
+  }
+
   function handleModeChange(e) {
     setMode(e.target.value);
   }
@@ -34,8 +39,7 @@ function App() {
 
   function renderNote(el, i) {
     if (el.mode == 'math') {
-      el.content = el.content.replace("\\[", "\\begin{bmatrix}");
-      el.content = el.content.replace("\\]", "\\end{bmatrix}");
+      el.content = parseMath(el.content);
       return (<div key={i} className='note-item'><BlockMath math={el.content} /></div>);
     } else {
       return (<div key={i} className='note-item'><p>{el.content}</p></div>);
