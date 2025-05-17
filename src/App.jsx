@@ -34,9 +34,9 @@ function App() {
 
   function renderNote(el, i) {
     if (el.mode == 'math') {
-      return (<p key={i} className='note-item'><BlockMath math={el.content} /></p>);
+      return (<div key={i} className='note-item'><BlockMath math={el.content} /></div>);
     } else {
-      return (<p key={i} className='note-item'>{el.content}</p>);
+      return (<div key={i} className='note-item'><p>{el.content}</p></div>);
     }
   }
 
