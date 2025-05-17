@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { BlockMath } from 'react-katex';
 import './App.css'
+import 'katex/dist/katex.min.css'
 
 function App() {
   const [mode, setMode] = useState("text");
@@ -31,7 +33,11 @@ function App() {
   }
 
   function renderNote(el, i) {
-    return (<p key={i} className='note-item'>{el.content}</p>);
+    if (el.mode == 'math') {
+      return (<p key={i} className='note-item'><BlockMath math={el.content} /></p>);
+    } else {
+      return (<p key={i} className='note-item'>{el.content}</p>);
+    }
   }
 
   return (
