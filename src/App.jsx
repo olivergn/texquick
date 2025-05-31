@@ -18,15 +18,7 @@ function App() {
 
   function parseMath(str) {
     return str.replaceAll("\\[", "\\begin{bmatrix}")
-    .replaceAll("\\]", "\\end{bmatrix}")
-    .replaceAll("<=", "\\leq ")
-    .replaceAll(">=", "\\geq ")
-    .replaceAll("!=", "\\neq ")
-    .replaceAll("<->", "\\leftrightarrow ")
-    .replaceAll("->", "\\rightarrow ")
-    .replaceAll("<-", "\\leftarrow ")
-    .replaceAll("||", "\\lVert ")
-    .replaceAll("|", "\\lvert ");
+    .replaceAll("\\]", "\\end{bmatrix}");
   }
 
   function handleModeChange(e) {
@@ -46,22 +38,30 @@ function App() {
   }
 
   function renderNote(el, i) {
+    let content;
+
     if (el.mode == 'math') {
       el.content = parseMath(el.content);
-      return (<div key={i} className='note-item'><BlockMath math={el.content} /></div>);
+      content = <BlockMath math={el.content} />;
     } else {
       if (el.content.startsWith("####")) {
-        return (<div key={i} className='note-item'><h4>{el.content.replace("####", "")}</h4></div>);
+        content = <h4>{el.content.replace("####", "")}</h4>;
       } else if (el.content.startsWith("###")) {
-        return (<div key={i} className='note-item'><h3>{el.content.replace("###", "")}</h3></div>);
+        content = <h3>{el.content.replace("###", "")}</h3>;
       } else if (el.content.startsWith("##")) {
-        return (<div key={i} className='note-item'><h2>{el.content.replace("##", "")}</h2></div>);
+        content = <h2>{el.content.replace("##", "")}</h2>;
       } else if (el.content.startsWith("#")) {
-        return (<div key={i} className='note-item'><h1>{el.content.replace("#", "")}</h1></div>);
+        content = <h1>{el.content.replace("#", "")}</h1>;
       } else {
-        return (<div key={i} className='note-item'><p>{el.content}</p></div>);
+        content = <p>{el.content}</p>;
       }
     }
+
+    return (
+      <div key={i} className='note-item'>
+        {content}
+      </div>
+    )
   }
 
   return (
