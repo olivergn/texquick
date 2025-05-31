@@ -37,6 +37,11 @@ function App() {
     setInput("");
   }
 
+  function handleDelete(index) {
+    const newElements = elements.filter((_, i) => (i != index));
+    setElements(newElements);
+  }
+
   function renderNote(el, i) {
     let content;
 
@@ -58,8 +63,11 @@ function App() {
     }
 
     return (
-      <div key={i} className='note-item'>
-        {content}
+      <div key={i} className='note-container'>
+        <div className='note-item'>
+          {content}
+        </div>
+        <button className='delete-button' onClick={() => handleDelete(i)}>Delete</button>
       </div>
     )
   }

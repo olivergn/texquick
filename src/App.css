@@ -76,10 +76,16 @@
   width: 75vw;
 }
 
-.note-item {
+.note-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   align-self: center;
   text-align: center;
+}
 
+.note-item {
   padding-left: 10px;
   padding-right: 10px;
   margin: 10px;
@@ -92,6 +98,13 @@
   background-color: #eeeeee;
 
   overflow-wrap: break-word;
+}
+
+.delete-button {
+  border: 1px solid black;
+  border-radius: 5px;
+
+  background-color: #eeeeee;
 }
 
 .toolbar {
