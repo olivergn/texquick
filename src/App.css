@@ -71,16 +71,24 @@
   justify-content: center;
 
   margin: auto;
-  margin-bottom: 10vh;
+  margin-bottom: 11vh;
 
   width: 75vw;
 }
 
-.note-item {
+.note-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   align-self: center;
   text-align: center;
+}
 
-  padding: 10px;
+.note-item {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 10px;
 
   max-width: 70vw;
 
@@ -88,6 +96,23 @@
   border-radius: 5px;
 
   background-color: #eeeeee;
+
+  overflow-wrap: break-word;
+}
+
+.delete-button {
+  border: 1px solid black;
+  border-radius: 5px;
+
+  background-color: #eeeeee;
+}
+
+.note-container .delete-button {
+  visibility: hidden;
+}
+
+.note-container:hover .delete-button {
+  visibility: visible;
 }
 
 .toolbar {
