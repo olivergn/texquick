@@ -107,6 +107,14 @@
   background-color: #eeeeee;
 }
 
+.note-container .delete-button {
+  visibility: hidden;
+}
+
+.note-container:hover .delete-button {
+  visibility: visible;
+}
+
 .toolbar {
   display: flex;
   flex-direction: row;
