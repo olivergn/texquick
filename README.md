@@ -7,7 +7,7 @@ This project was created to solve a problem I encountered during my university s
 ## Current features
 - Users can write both text and math input, which is dynamically added via DOM manipulation.
 - Notes can be deleted at will if errors are made or they are no longer needed.
-- Markup-style #headers can be used to emphasise sections of notes.
+- Markdown-style #headers can be used to emphasise sections of notes.
 - User math input is automatically embedded as LaTeX expressions via KaTeX.
 - Shortcuts help speed up LaTeX expressions for matrices, inequalities, and logic.
 
