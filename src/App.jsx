@@ -18,7 +18,15 @@ function App() {
 
   function parseMath(str) {
     return str.replaceAll("\\[", "\\begin{bmatrix}")
-    .replaceAll("\\]", "\\end{bmatrix}");
+    .replaceAll("\\]", "\\end{bmatrix}")
+    .replaceAll("<=", "\\leq ")
+    .replaceAll(">=", "\\geq ")
+    .replaceAll("!=", "\\neq ")
+    .replaceAll("<->", "\\leftrightarrow ")
+    .replaceAll("->", "\\rightarrow ")
+    .replaceAll("<-", "\\leftarrow ")
+    .replaceAll("||", "\\lVert ")
+    .replaceAll("|", "\\lvert ");
   }
 
   function handleModeChange(e) {
