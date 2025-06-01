@@ -1,12 +1,23 @@
-# React + Vite
+# TeXQuick
+> A lightweight, LaTeX-powered note-taker.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## General information
+This project was created to solve a problem I encountered during my university studies. I needed a way to quickly write down mathematical formulae and equations, but paper wasn't always available, writing `.tex` files was clunky and slow, and word processor equation editors felt too finicky. So, I created TeXQuick, powered by KaTeX, for a fast, lightweight, low-overhead alternative, with built-in support for shortcuts to make producing expressions even more efficient.
 
-Currently, two official plugins are available:
+## Current features
+- Users can write both text and math input, which is dynamically added via DOM manipulation.
+- Notes can be deleted at will if errors are made or they are no longer needed.
+- Markup-style #headers can be used to emphasise sections of notes.
+- User math input is automatically embedded as LaTeX expressions via KaTeX.
+- Shortcuts help speed up LaTeX expressions for matrices, inequalities, and logic.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Planned features
+- Support for editing and drag-and-drop rearranging notes.
+- Exporting notes to `.tex` or to PDF.
+- More shortcuts for LaTeX expressions.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Technologies used
+- **Node.js**
+- **Vite**
+- **React**
+- **KaTeX**
