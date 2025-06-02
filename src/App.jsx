@@ -83,8 +83,7 @@ function App() {
     return isEditing[i] ? (
       <div key={i} className='note-container'>
         <div className='note-item'>
-          !Editing!
-          {content}
+          <input type="text" className='edit-input' value={el.content} />
         </div>
         <div className='button-container'>
           <button className='note-button' onClick={() => handleEdit(i)}>Edit</button>
@@ -94,7 +93,6 @@ function App() {
     ) : (
       <div key={i} className='note-container'>
         <div className='note-item'>
-          !Not Editing!
           {content}
         </div>
         <div className='button-container'>
