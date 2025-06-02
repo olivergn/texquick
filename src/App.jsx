@@ -59,11 +59,6 @@ function App() {
   }
 
   function handleEdit(index) {
-    if (isEditing[index]) {
-      const newElements = [...elements];
-      newElements[index].content = editValues[index];
-      setElements(newElements);
-    }
     const newEditing = [...isEditing];
     newEditing[index] = !newEditing[index];
     setEditing(newEditing);
@@ -73,6 +68,20 @@ function App() {
     const newEditValues = [...editValues];
     newEditValues[index] = value;
     setEditValues(newEditValues);
+  }
+
+  function handleEditSubmit(index) {
+    const newElements = [...elements];
+    newElements[index].content = editValues[index];
+    setElements(newElements);
+    handleEdit(index);
+  }
+
+  function handleEditDiscard(index) {
+    const newEditValues = [...editValues];
+    newEditValues[index] = elements[index].content;
+    setEditValues(newEditValues);
+    handleEdit(index);
   }
 
   function renderNote(el, i) {
@@ -100,7 +109,8 @@ function App() {
           <input type="text" className='edit-input' value={editValues[i]} onChange={(e) => handleEditChange(i, e.target.value)} />
         </div>
         <div className='button-container'>
-          <button className='note-button' onClick={() => handleEdit(i)}>Confirm</button>
+          <button className='note-button' onClick={() => handleEditSubmit(i)}>Confirm</button>
+          <button className='note-button' onClick={() => handleEditDiscard(i)}>Discard</button>
           <button className='note-button' onClick={() => handleDelete(i)}>Delete</button>
         </div>
       </div>
