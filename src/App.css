@@ -100,18 +100,30 @@
   overflow-wrap: break-word;
 }
 
-.delete-button {
+.edit-input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.note-button {
   border: 1px solid black;
   border-radius: 5px;
+
+  margin-top: 5px;
 
   background-color: #eeeeee;
 }
 
-.note-container .delete-button {
+.note-container .note-button {
   visibility: hidden;
 }
 
-.note-container:hover .delete-button {
+.note-container:hover .note-button {
   visibility: visible;
 }
 
