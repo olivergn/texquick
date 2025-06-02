@@ -7,6 +7,7 @@ function App() {
   const [mode, setMode] = useState("text");
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
+  const [isEditing, setEditing] = useState([]);
 
   const notesRef = useRef(null);
 
@@ -42,12 +43,21 @@ function App() {
     if (!input.trim()) return;
     const newElement = { mode, content: input };
     setElements([...elements, newElement]);
+    setEditing([...isEditing, false]);
     setInput("");
   }
 
   function handleDelete(index) {
     const newElements = elements.filter((_, i) => (i != index));
+    const newEditing = isEditing.filter((_, i) => (i != index));
     setElements(newElements);
+    setEditing(newEditing);
+  }
+
+  function handleEdit(index) {
+    const newEditing = [...isEditing];
+    newEditing[index] = !newEditing[index];
+    setEditing(newEditing);
   }
 
   function renderNote(el, i) {
@@ -70,12 +80,27 @@ function App() {
       }
     }
 
-    return (
+    return isEditing[i] ? (
       <div key={i} className='note-container'>
         <div className='note-item'>
+          !Editing!
           {content}
         </div>
-        <button className='delete-button' onClick={() => handleDelete(i)}>Delete</button>
+        <div className='button-container'>
+          <button className='note-button' onClick={() => handleEdit(i)}>Edit</button>
+          <button className='note-button' onClick={() => handleDelete(i)}>Delete</button>
+        </div>
+      </div>
+    ) : (
+      <div key={i} className='note-container'>
+        <div className='note-item'>
+          !Not Editing!
+          {content}
+        </div>
+        <div className='button-container'>
+          <button className='note-button' onClick={() => handleEdit(i)}>Edit</button>
+          <button className='note-button' onClick={() => handleDelete(i)}>Delete</button>
+        </div>
       </div>
     )
   }
