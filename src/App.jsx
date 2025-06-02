@@ -8,6 +8,7 @@ function App() {
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
   const [isEditing, setEditing] = useState([]);
+  const [editValues, setEditValues] = useState([]);
 
   const notesRef = useRef(null);
 
@@ -44,20 +45,34 @@ function App() {
     const newElement = { mode, content: input };
     setElements([...elements, newElement]);
     setEditing([...isEditing, false]);
+    setEditValues([...editValues, input]);
     setInput("");
   }
 
   function handleDelete(index) {
     const newElements = elements.filter((_, i) => (i != index));
     const newEditing = isEditing.filter((_, i) => (i != index));
+    const newEditValues = editValues.filter((_, i) => (i != index));
     setElements(newElements);
     setEditing(newEditing);
+    setEditValues(newEditValues);
   }
 
   function handleEdit(index) {
+    if (isEditing[index]) {
+      const newElements = [...elements];
+      newElements[index].content = editValues[index];
+      setElements(newElements);
+    }
     const newEditing = [...isEditing];
     newEditing[index] = !newEditing[index];
     setEditing(newEditing);
+  }
+
+  function handleEditChange(index, value) {
+    const newEditValues = [...editValues];
+    newEditValues[index] = value;
+    setEditValues(newEditValues);
   }
 
   function renderNote(el, i) {
@@ -82,10 +97,10 @@ function App() {
     return isEditing[i] ? (
       <div key={i} className='note-container'>
         <div className='note-item'>
-          <input type="text" className='edit-input' value={el.content} />
+          <input type="text" className='edit-input' value={editValues[i]} onChange={(e) => handleEditChange(i, e.target.value)} />
         </div>
         <div className='button-container'>
-          <button className='note-button' onClick={() => handleEdit(i)}>Edit</button>
+          <button className='note-button' onClick={() => handleEdit(i)}>Confirm</button>
           <button className='note-button' onClick={() => handleDelete(i)}>Delete</button>
         </div>
       </div>
