@@ -64,8 +64,7 @@ function App() {
     let content;
 
     if (el.mode == 'math') {
-      el.content = parseMath(el.content);
-      content = <BlockMath math={el.content} />;
+      content = <BlockMath math={parseMath(el.content)} />;
     } else {
       if (el.content.startsWith("####")) {
         content = <h4>{el.content.replace("####", "")}</h4>;
