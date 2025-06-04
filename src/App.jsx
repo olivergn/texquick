@@ -84,6 +84,12 @@ function App() {
     handleEdit(index);
   }
 
+  function handleClear() {
+    setElements([]);
+    setEditing([]);
+    setEditValues([]);
+  }
+
   function renderNote(el, i) {
     let content;
 
