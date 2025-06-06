@@ -20,15 +20,15 @@ function App() {
 
   function parseMath(str) {
     return str.replaceAll("\\[", "\\begin{bmatrix}")
-    .replaceAll("\\]", "\\end{bmatrix}")
-    .replaceAll("<=", "\\leq ")
-    .replaceAll(">=", "\\geq ")
-    .replaceAll("!=", "\\neq ")
-    .replaceAll("<->", "\\leftrightarrow ")
-    .replaceAll("->", "\\rightarrow ")
-    .replaceAll("<-", "\\leftarrow ")
-    .replaceAll("||", "\\lVert ")
-    .replaceAll("|", "\\lvert ");
+      .replaceAll("\\]", "\\end{bmatrix}")
+      .replaceAll("<=", "\\leq ")
+      .replaceAll(">=", "\\geq ")
+      .replaceAll("!=", "\\neq ")
+      .replaceAll("<->", "\\leftrightarrow ")
+      .replaceAll("->", "\\rightarrow ")
+      .replaceAll("<-", "\\leftarrow ")
+      .replaceAll("||", "\\lVert ")
+      .replaceAll("|", "\\lvert ");
   }
 
   function handleModeChange(e) {
@@ -144,16 +144,17 @@ function App() {
       </div>
 
       <div className='bottom-container'>
-      <form onSubmit={handleSubmit}>
-      <div className="toolbar">
-        <select name="modes" id="modes" className="mode-select" onChange={handleModeChange}>
-          <option value="text">Text</option>
-          <option value="math">Math</option>
-        </select>
-        <input type="text" className="text-input" value={input} onChange={handleInputChange}/>
-        <button type='submit' className="text-submit">Send</button>
-      </div>
-      </form>
+        <button className='clear-button' onClick={handleClear}>Clear</button>
+        <form onSubmit={handleSubmit}>
+          <div className="toolbar">
+            <select name="modes" id="modes" className="mode-select" onChange={handleModeChange}>
+              <option value="text">Text</option>
+              <option value="math">Math</option>
+            </select>
+            <input type="text" className="text-input" value={input} onChange={handleInputChange} />
+            <button type='submit' className="text-submit">Send</button>
+          </div>
+        </form>
       </div>
     </>
   )
