@@ -122,10 +122,12 @@
 
 .note-container .note-button {
   visibility: hidden;
+  max-width: 0;
 }
 
 .note-container:hover .note-button {
   visibility: visible;
+  max-width: none;
 }
 
 .bottom-container {
