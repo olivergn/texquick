@@ -50,7 +50,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  right: 87.8vw;
+  right: calc(100% - 12.2vw);
   z-index: 0;
 }
 
@@ -60,7 +60,7 @@
   background-color: #778899;
   top: 0;
   bottom: 0;
-  left: 87.8vw;
+  left: calc(100% - 12.2vw);
   right: 0;
   z-index: 0;
 }
@@ -127,12 +127,17 @@
   visibility: visible;
 }
 
+.bottom-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 1vh;
+}
+
 .toolbar {
   display: flex;
   flex-direction: row;
 
-  position: fixed;
-  bottom: 1vh;
   left: 0;
   right: 0;
 
@@ -141,6 +146,8 @@
 
 .toolbar * {
   font-size: 24px;
+
+  height: 10vh;
 }
 
 .mode-select {

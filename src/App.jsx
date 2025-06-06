@@ -143,6 +143,7 @@ function App() {
         <div id='notes-ending' ref={notesRef}></div>
       </div>
 
+      <div className='bottom-container'>
       <form onSubmit={handleSubmit}>
       <div className="toolbar">
         <select name="modes" id="modes" className="mode-select" onChange={handleModeChange}>
@@ -153,6 +154,7 @@ function App() {
         <button type='submit' className="text-submit">Send</button>
       </div>
       </form>
+      </div>
     </>
   )
 }
