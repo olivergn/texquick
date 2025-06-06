@@ -7,8 +7,6 @@ function App() {
   const [mode, setMode] = useState("text");
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
-  const [isEditing, setEditing] = useState([]);
-  const [editValues, setEditValues] = useState([]);
 
   const notesRef = useRef(null);
 
@@ -18,17 +16,23 @@ function App() {
     }
   });
 
+  useEffect(() => {
+    if (localStorage.getItem('elements')) {
+      setElements(JSON.parse(localStorage.getItem('elements')));
+    };
+  }, []);
+
   function parseMath(str) {
     return str.replaceAll("\\[", "\\begin{bmatrix}")
-    .replaceAll("\\]", "\\end{bmatrix}")
-    .replaceAll("<=", "\\leq ")
-    .replaceAll(">=", "\\geq ")
-    .replaceAll("!=", "\\neq ")
-    .replaceAll("<->", "\\leftrightarrow ")
-    .replaceAll("->", "\\rightarrow ")
-    .replaceAll("<-", "\\leftarrow ")
-    .replaceAll("||", "\\lVert ")
-    .replaceAll("|", "\\lvert ");
+      .replaceAll("\\]", "\\end{bmatrix}")
+      .replaceAll("<=", "\\leq ")
+      .replaceAll(">=", "\\geq ")
+      .replaceAll("!=", "\\neq ")
+      .replaceAll("<->", "\\leftrightarrow ")
+      .replaceAll("->", "\\rightarrow ")
+      .replaceAll("<-", "\\leftarrow ")
+      .replaceAll("||", "\\lVert ")
+      .replaceAll("|", "\\lvert ");
   }
 
   function handleModeChange(e) {
@@ -42,46 +46,52 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!input.trim()) return;
-    const newElement = { mode, content: input };
-    setElements([...elements, newElement]);
-    setEditing([...isEditing, false]);
-    setEditValues([...editValues, input]);
+    const newElement = { mode, content: input, isEditing: false, editValue: input };
+    const newElements = [...elements, newElement];
+    setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
     setInput("");
   }
 
   function handleDelete(index) {
     const newElements = elements.filter((_, i) => (i != index));
-    const newEditing = isEditing.filter((_, i) => (i != index));
-    const newEditValues = editValues.filter((_, i) => (i != index));
     setElements(newElements);
-    setEditing(newEditing);
-    setEditValues(newEditValues);
+    localStorage.setItem('elements', JSON.stringify(newElements));
   }
 
   function handleEdit(index) {
-    const newEditing = [...isEditing];
-    newEditing[index] = !newEditing[index];
-    setEditing(newEditing);
+    const newElements = [...elements];
+    newElements[index].isEditing = !newElements[index].isEditing;
+    setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
   }
 
   function handleEditChange(index, value) {
-    const newEditValues = [...editValues];
-    newEditValues[index] = value;
-    setEditValues(newEditValues);
+    const newElements = [...elements];
+    newElements[index].editValue = value;
+    setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
   }
 
   function handleEditSubmit(index) {
     const newElements = [...elements];
-    newElements[index].content = editValues[index];
+    newElements[index].content = elements[index].editValue;
     setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
     handleEdit(index);
   }
 
   function handleEditDiscard(index) {
-    const newEditValues = [...editValues];
-    newEditValues[index] = elements[index].content;
-    setEditValues(newEditValues);
+    const newElements = [...elements];
+    newElements[index].editValue = elements[index].content;
+    setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
     handleEdit(index);
+  }
+
+  function handleClear() {
+    setElements([]);
+    localStorage.removeItem('elements');
   }
 
   function renderNote(el, i) {
@@ -103,10 +113,10 @@ function App() {
       }
     }
 
-    return isEditing[i] ? (
+    return elements[i].isEditing ? (
       <div key={i} className='note-container'>
         <div className='note-item'>
-          <input type="text" className='edit-input' value={editValues[i]} onChange={(e) => handleEditChange(i, e.target.value)} />
+          <input type="text" className='edit-input' value={elements[i].editValue} onChange={(e) => handleEditChange(i, e.target.value)} />
         </div>
         <div className='button-container'>
           <button className='note-button' onClick={() => handleEditSubmit(i)}>Confirm</button>
@@ -137,16 +147,19 @@ function App() {
         <div id='notes-ending' ref={notesRef}></div>
       </div>
 
-      <form onSubmit={handleSubmit}>
-      <div className="toolbar">
-        <select name="modes" id="modes" className="mode-select" onChange={handleModeChange}>
-          <option value="text">Text</option>
-          <option value="math">Math</option>
-        </select>
-        <input type="text" className="text-input" value={input} onChange={handleInputChange}/>
-        <button type='submit' className="text-submit">Send</button>
+      <div className='bottom-container'>
+        <button className='clear-button' onClick={handleClear}>Clear</button>
+        <form onSubmit={handleSubmit}>
+          <div className="toolbar">
+            <select name="modes" id="modes" className="mode-select" onChange={handleModeChange}>
+              <option value="text">Text</option>
+              <option value="math">Math</option>
+            </select>
+            <input type="text" className="text-input" value={input} onChange={handleInputChange} />
+            <button type='submit' className="text-submit">Send</button>
+          </div>
+        </form>
       </div>
-      </form>
     </>
   )
 }

@@ -50,7 +50,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  right: 87.8vw;
+  right: calc(100% - 12.2vw);
   z-index: 0;
 }
 
@@ -60,7 +60,7 @@
   background-color: #778899;
   top: 0;
   bottom: 0;
-  left: 87.8vw;
+  left: calc(100% - 12.2vw);
   right: 0;
   z-index: 0;
 }
@@ -114,33 +114,52 @@
   border: 1px solid black;
   border-radius: 5px;
 
-  margin-top: 5px;
+  margin-top: 2.5px;
+  margin-bottom: 2.5px;
 
   background-color: #eeeeee;
 }
 
 .note-container .note-button {
   visibility: hidden;
+  max-width: 0;
 }
 
 .note-container:hover .note-button {
   visibility: visible;
+  max-width: none;
+}
+
+.bottom-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 1vh;
 }
 
 .toolbar {
   display: flex;
   flex-direction: row;
 
-  position: fixed;
-  bottom: 1vh;
+  margin-top: 5px;
+
   left: 0;
   right: 0;
 
   height: 10vh;
 }
 
-.toolbar * {
+.bottom-container * {
+  border: 0px;
+  border-radius: 5px;
+
   font-size: 24px;
+
+  height: 10vh;
+}
+
+.clear-button {
+  width: 12vw;
 }
 
 .mode-select {
@@ -165,4 +184,7 @@
   justify-content: right;
 
   width: 12vw;
+
+  background-color: #0055aa;
+  color: #ffffff;
 }
