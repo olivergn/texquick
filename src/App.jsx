@@ -20,7 +20,6 @@ function App() {
     if (localStorage.getItem('elements')) {
       setElements(JSON.parse(localStorage.getItem('elements')));
     };
-    console.log(localStorage.getItem('elements'));
   }, []);
 
   function parseMath(str) {
