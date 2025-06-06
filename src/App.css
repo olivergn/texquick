@@ -141,7 +141,10 @@
   display: flex;
   flex-direction: row;
 
-  margin-top: 5px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 1vh;
 
   left: 0;
   right: 0;
@@ -149,26 +152,30 @@
   height: 10vh;
 }
 
-.bottom-container * {
+.big-button {
   border: 0px;
   border-radius: 5px;
 
   font-size: 24px;
 
+  width: 12vw;
   height: 10vh;
 }
 
-.clear-button {
-  width: 12vw;
+#clear-button {
+  position: fixed;
+
+  bottom: 12vh;
+  left: calc(100% - 12vw);
 }
 
-.mode-select {
+#mode-select {
   justify-content: left;
 
   width: 12vw;
 }
 
-.text-input {
+#text-input {
   justify-content: center;
 
   margin-left: auto;
@@ -176,11 +183,13 @@
 
   width: 75vw;
 
+  font-size: 24px;
+
   background-color: #ffffff;
   color: #000000;
 }
 
-.text-submit {
+#text-submit {
   justify-content: right;
 
   width: 12vw;

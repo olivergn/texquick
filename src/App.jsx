@@ -139,27 +139,26 @@ function App() {
 
   return (
     <>
-      <div id="bg-left"></div>
-      <div id="bg-right"></div>
+      <div id='bg-left'></div>
+      <div id='bg-right'></div>
 
       <div className='notes-container'>
         {elements.map((el, i) => renderNote(el, i))}
         <div id='notes-ending' ref={notesRef}></div>
       </div>
 
-      <div className='bottom-container'>
-        <button className='clear-button' onClick={handleClear}>Clear</button>
+      <button id='clear-button' className='big-button' onClick={handleClear}>Clear</button>
+        
         <form onSubmit={handleSubmit}>
-          <div className="toolbar">
-            <select name="modes" id="modes" className="mode-select" onChange={handleModeChange}>
+          <div className='toolbar'>
+            <select name='modes' id='mode-select' className='big-button' onChange={handleModeChange}>
               <option value="text">Text</option>
               <option value="math">Math</option>
             </select>
-            <input type="text" className="text-input" value={input} onChange={handleInputChange} />
-            <button type='submit' className="text-submit">Send</button>
+            <input type='text' id='text-input' value={input} onChange={handleInputChange} />
+            <button type='submit' id='text-submit' className='big-button'>Send</button>
           </div>
         </form>
-      </div>
     </>
   )
 }
