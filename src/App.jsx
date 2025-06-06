@@ -7,8 +7,6 @@ function App() {
   const [mode, setMode] = useState("text");
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
-  const [isEditing, setEditing] = useState([]);
-  const [editValues, setEditValues] = useState([]);
 
   const notesRef = useRef(null);
 
@@ -42,52 +40,44 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!input.trim()) return;
-    const newElement = { mode, content: input };
+    const newElement = { mode, content: input, isEditing: false, editValue: input };
     setElements([...elements, newElement]);
-    setEditing([...isEditing, false]);
-    setEditValues([...editValues, input]);
     setInput("");
   }
 
   function handleDelete(index) {
     const newElements = elements.filter((_, i) => (i != index));
-    const newEditing = isEditing.filter((_, i) => (i != index));
-    const newEditValues = editValues.filter((_, i) => (i != index));
     setElements(newElements);
-    setEditing(newEditing);
-    setEditValues(newEditValues);
   }
 
   function handleEdit(index) {
-    const newEditing = [...isEditing];
-    newEditing[index] = !newEditing[index];
-    setEditing(newEditing);
+    const newElements = [...elements];
+    newElements[index].isEditing = !newElements[index].isEditing;
+    setElements(newElements);
   }
 
   function handleEditChange(index, value) {
-    const newEditValues = [...editValues];
-    newEditValues[index] = value;
-    setEditValues(newEditValues);
+    const newElements = [...elements];
+    newElements[index].editValue = value;
+    setElements(newElements);
   }
 
   function handleEditSubmit(index) {
     const newElements = [...elements];
-    newElements[index].content = editValues[index];
+    newElements[index].content = elements[index].editValue;
     setElements(newElements);
     handleEdit(index);
   }
 
   function handleEditDiscard(index) {
-    const newEditValues = [...editValues];
-    newEditValues[index] = elements[index].content;
-    setEditValues(newEditValues);
+    const newElements = [...elements];
+    newElements[index].editValue = elements[index].content;
+    setElements(newElements);
     handleEdit(index);
   }
 
   function handleClear() {
     setElements([]);
-    setEditing([]);
-    setEditValues([]);
   }
 
   function renderNote(el, i) {
@@ -109,10 +99,10 @@ function App() {
       }
     }
 
-    return isEditing[i] ? (
+    return elements[i].isEditing ? (
       <div key={i} className='note-container'>
         <div className='note-item'>
-          <input type="text" className='edit-input' value={editValues[i]} onChange={(e) => handleEditChange(i, e.target.value)} />
+          <input type="text" className='edit-input' value={elements[i].editValue} onChange={(e) => handleEditChange(i, e.target.value)} />
         </div>
         <div className='button-container'>
           <button className='note-button' onClick={() => handleEditSubmit(i)}>Confirm</button>
