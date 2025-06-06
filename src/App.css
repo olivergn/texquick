@@ -138,6 +138,8 @@
   display: flex;
   flex-direction: row;
 
+  margin-top: 5px;
+
   left: 0;
   right: 0;
 
@@ -145,6 +147,9 @@
 }
 
 .bottom-container * {
+  border: 0px;
+  border-radius: 5px;
+
   font-size: 24px;
 
   height: 10vh;
@@ -176,4 +181,7 @@
   justify-content: right;
 
   width: 12vw;
+
+  background-color: #0055aa;
+  color: #ffffff;
 }
