@@ -16,6 +16,13 @@ function App() {
     }
   });
 
+  useEffect(() => {
+    if (localStorage.getItem('elements')) {
+      setElements(JSON.parse(localStorage.getItem('elements')));
+    };
+    console.log(localStorage.getItem('elements'));
+  }, []);
+
   function parseMath(str) {
     return str.replaceAll("\\[", "\\begin{bmatrix}")
       .replaceAll("\\]", "\\end{bmatrix}")
@@ -41,31 +48,37 @@ function App() {
     e.preventDefault();
     if (!input.trim()) return;
     const newElement = { mode, content: input, isEditing: false, editValue: input };
-    setElements([...elements, newElement]);
+    const newElements = [...elements, newElement];
+    setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
     setInput("");
   }
 
   function handleDelete(index) {
     const newElements = elements.filter((_, i) => (i != index));
     setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
   }
 
   function handleEdit(index) {
     const newElements = [...elements];
     newElements[index].isEditing = !newElements[index].isEditing;
     setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
   }
 
   function handleEditChange(index, value) {
     const newElements = [...elements];
     newElements[index].editValue = value;
     setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
   }
 
   function handleEditSubmit(index) {
     const newElements = [...elements];
     newElements[index].content = elements[index].editValue;
     setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
     handleEdit(index);
   }
 
@@ -73,11 +86,13 @@ function App() {
     const newElements = [...elements];
     newElements[index].editValue = elements[index].content;
     setElements(newElements);
+    localStorage.setItem('elements', JSON.stringify(newElements));
     handleEdit(index);
   }
 
   function handleClear() {
     setElements([]);
+    localStorage.removeItem('elements');
   }
 
   function renderNote(el, i) {
