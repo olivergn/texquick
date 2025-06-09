@@ -152,6 +152,7 @@ function App() {
       <select name='notepads' id='notepad-select' className='med-button'>
         {notepads.map((notepad, i) => renderOption(notepad, i))}
       </select>
+      <input type="text" id='notepad-input' className='med-button' />
 
       <div className='notes-container'>
         {elements.map((el, i) => renderNote(el, i))}
