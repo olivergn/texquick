@@ -4,6 +4,7 @@ import './App.css'
 import 'katex/dist/katex.min.css'
 
 function App() {
+  const [notepads, setNotepads] = useState(["Default1", "Default2"])
   const [mode, setMode] = useState("text");
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
@@ -94,6 +95,12 @@ function App() {
     localStorage.removeItem('elements');
   }
 
+  function renderOption(notepad, i) {
+    return (
+      <option key={i}>{notepad}</option>
+    )
+  }
+
   function renderNote(el, i) {
     let content;
 
@@ -141,6 +148,10 @@ function App() {
     <>
       <div id='bg-left'></div>
       <div id='bg-right'></div>
+
+      <select name='notepads' id='notepad-select' className='med-button'>
+        {notepads.map((notepad, i) => renderOption(notepad, i))}
+      </select>
 
       <div className='notes-container'>
         {elements.map((el, i) => renderNote(el, i))}
