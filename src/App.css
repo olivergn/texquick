@@ -73,7 +73,7 @@
 
   font-size: 16px;
 
-  width: 12vw;
+  width: 11.5vw;
   height: 5vh;
 }
 
@@ -92,13 +92,22 @@
 #notepad-select {
   position: fixed;
   top: 1vh;
-  right: calc(100% - 12vw);
+  right: calc(100% - 11.75vw);
 }
 
 #notepad-input {
   position: fixed;
   top: 7vh;
-  right: calc(100% - 12vw);
+  right: calc(100% - 11.75vw);
+}
+
+#notepad-create {
+  position: fixed;
+  top: 13vh;
+  right: calc(100% - 11.75vw);
+
+  background-color: #0055aa;
+  color: #ffffff;
 }
 
 /* Bottom */

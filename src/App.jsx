@@ -4,12 +4,18 @@ import './App.css'
 import 'katex/dist/katex.min.css'
 
 function App() {
+  /* Constants */
+
   const [notepads, setNotepads] = useState(["Default1", "Default2"])
+  const [notepadInput, setNotepadInput] = useState("");
+
   const [mode, setMode] = useState("text");
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
 
   const notesRef = useRef(null);
+
+  /* Effects */
 
   useEffect(() => {
     if (notesRef.current) {
@@ -22,6 +28,28 @@ function App() {
       setElements(JSON.parse(localStorage.getItem('elements')));
     };
   }, []);
+
+  /* Notepads */
+
+  function handleNotepadInputChange(e) {
+    setNotepadInput(e.target.value);
+  }
+
+  function handleCreateNotepad() {
+    if (notepadInput !== "") {
+      const newNotepads = [...notepads, notepadInput];
+      setNotepads(newNotepads);
+      setNotepadInput("");
+    }
+  }
+
+  function renderOption(notepad, i) {
+    return (
+      <option key={i}>{notepad}</option>
+    )
+  }
+
+  /* Notes */
 
   function parseMath(str) {
     return str.replaceAll("\\[", "\\begin{bmatrix}")
@@ -95,12 +123,6 @@ function App() {
     localStorage.removeItem('elements');
   }
 
-  function renderOption(notepad, i) {
-    return (
-      <option key={i}>{notepad}</option>
-    )
-  }
-
   function renderNote(el, i) {
     let content;
 
@@ -152,7 +174,8 @@ function App() {
       <select name='notepads' id='notepad-select' className='med-button'>
         {notepads.map((notepad, i) => renderOption(notepad, i))}
       </select>
-      <input type="text" id='notepad-input' className='med-button' />
+      <input type="text" id='notepad-input' className='med-button' value={notepadInput} onChange={handleNotepadInputChange} />
+      <button id='notepad-create' className='med-button' onClick={handleCreateNotepad}>Create Notepad</button>
 
       <div className='notes-container'>
         {elements.map((el, i) => renderNote(el, i))}
@@ -160,17 +183,17 @@ function App() {
       </div>
 
       <button id='clear-button' className='big-button' onClick={handleClear}>Clear</button>
-        
-        <form onSubmit={handleSubmit}>
-          <div className='toolbar'>
-            <select name='modes' id='mode-select' className='big-button' onChange={handleModeChange}>
-              <option value="text">Text</option>
-              <option value="math">Math</option>
-            </select>
-            <input type='text' id='text-input' value={input} onChange={handleInputChange} />
-            <button type='submit' id='text-submit' className='big-button'>Send</button>
-          </div>
-        </form>
+
+      <form onSubmit={handleSubmit}>
+        <div className='toolbar'>
+          <select name='modes' id='mode-select' className='big-button' onChange={handleModeChange}>
+            <option value="text">Text</option>
+            <option value="math">Math</option>
+          </select>
+          <input type='text' id='text-input' value={input} onChange={handleInputChange} />
+          <button type='submit' id='text-submit' className='big-button'>Send</button>
+        </div>
+      </form>
     </>
   )
 }
