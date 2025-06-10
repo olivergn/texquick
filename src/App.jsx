@@ -36,7 +36,7 @@ function App() {
   }
 
   function handleCreateNotepad() {
-    if (notepadInput !== "") {
+    if (notepadInput !== "" && !notepads.includes(notepadInput)) {
       const newNotepads = [...notepads, notepadInput];
       setNotepads(newNotepads);
       setNotepadInput("");
