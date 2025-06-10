@@ -55,6 +55,15 @@ function App() {
     }
   }
 
+  function handleDeleteNotepad() {
+    if (notepads.length > 1) {
+      const index = notepads.indexOf(currentNotepad);
+      const newNotepads = notepads.filter((_, i) => (i != index));
+      setNotepads(newNotepads);
+      setCurrentNotepad(newNotepads[0]);
+    }
+  }
+
   function renderOption(notepad, i) {
     return (
       <option key={i} value={notepad}>{notepad}</option>
@@ -190,7 +199,7 @@ function App() {
       <p>Current notepad: {currentNotepad}</p>
       <input type="text" id='notepad-input' className='med-button' value={notepadInput} onChange={handleNotepadInputChange} />
       <button id='notepad-create' className='med-button' onClick={handleCreateNotepad}>Create Notepad</button>
-      <button id='notepad-delete' className='med-button'>Delete Notepad</button>
+      <button id='notepad-delete' className='med-button' onClick={handleDeleteNotepad}>Delete Notepad</button>
       </div>
 
       <div className='notes-container'>
