@@ -6,7 +6,8 @@ import 'katex/dist/katex.min.css'
 function App() {
   /* Constants */
 
-  const [notepads, setNotepads] = useState(["Default1", "Default2"])
+  const [notepads, setNotepads] = useState(["Default1", "Default2"]);
+  const [currentNotepad, setCurrentNotepad] = useState("");
   const [notepadInput, setNotepadInput] = useState("");
 
   const [mode, setMode] = useState("text");
@@ -16,6 +17,12 @@ function App() {
   const notesRef = useRef(null);
 
   /* Effects */
+
+  useEffect(() => {
+    if (!currentNotepad && notepads.length > 0) {
+      setCurrentNotepad(notepads[0]);
+    }
+  });
 
   useEffect(() => {
     if (notesRef.current) {
@@ -31,6 +38,11 @@ function App() {
 
   /* Notepads */
 
+  function handleNotepadChange(e) {
+    const selected = e.target.value;
+    setCurrentNotepad(selected);
+  }
+
   function handleNotepadInputChange(e) {
     setNotepadInput(e.target.value);
   }
@@ -45,7 +57,7 @@ function App() {
 
   function renderOption(notepad, i) {
     return (
-      <option key={i}>{notepad}</option>
+      <option key={i} value={notepad}>{notepad}</option>
     )
   }
 
@@ -172,9 +184,10 @@ function App() {
       <div id='bg-right'></div>
 
       <div className='sidebar-container'>
-        <select name='notepads' id='notepad-select' className='med-button'>
+        <select name='notepads' id='notepad-select' className='med-button' onChange={handleNotepadChange}>
         {notepads.map((notepad, i) => renderOption(notepad, i))}
       </select>
+      <p>Current notepad: {currentNotepad}</p>
       <input type="text" id='notepad-input' className='med-button' value={notepadInput} onChange={handleNotepadInputChange} />
       <button id='notepad-create' className='med-button' onClick={handleCreateNotepad}>Create Notepad</button>
       <button id='notepad-delete' className='med-button'>Delete Notepad</button>
