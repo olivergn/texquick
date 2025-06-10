@@ -89,25 +89,35 @@
   height: 10vh;
 }
 
-#notepad-select {
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+
   position: fixed;
   top: 1vh;
   right: calc(100% - 11.75vw);
 }
 
-#notepad-input {
-  position: fixed;
-  top: 7vh;
-  right: calc(100% - 11.75vw);
+.sidebar-container * {
+  margin-bottom: 0.5vh;
 }
 
-#notepad-create {
-  position: fixed;
-  top: 13vh;
-  right: calc(100% - 11.75vw);
+/* #notepad-select {
 
+}
+
+#notepad-input {
+
+} */
+
+#notepad-create {
   background-color: #0055aa;
   color: #ffffff;
+}
+
+#notepad-delete {
+  background-color: #be2525;
+  color: #222222;
 }
 
 /* Bottom */

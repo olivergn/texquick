@@ -171,11 +171,14 @@ function App() {
       <div id='bg-left'></div>
       <div id='bg-right'></div>
 
-      <select name='notepads' id='notepad-select' className='med-button'>
+      <div className='sidebar-container'>
+        <select name='notepads' id='notepad-select' className='med-button'>
         {notepads.map((notepad, i) => renderOption(notepad, i))}
       </select>
       <input type="text" id='notepad-input' className='med-button' value={notepadInput} onChange={handleNotepadInputChange} />
       <button id='notepad-create' className='med-button' onClick={handleCreateNotepad}>Create Notepad</button>
+      <button id='notepad-delete' className='med-button'>Delete Notepad</button>
+      </div>
 
       <div className='notes-container'>
         {elements.map((el, i) => renderNote(el, i))}
