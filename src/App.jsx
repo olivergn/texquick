@@ -6,7 +6,10 @@ import 'katex/dist/katex.min.css'
 function App() {
   /* Constants */
 
-  const [notepads, setNotepads] = useState(["Default1", "Default2"]);
+  const [notepads, setNotepads] = useState(() => {
+    const stored = localStorage.getItem('notepads');
+    return stored ? JSON.parse(stored) : ["Default"];
+  });
   const [currentNotepad, setCurrentNotepad] = useState("");
   const [notepadInput, setNotepadInput] = useState("");
 
@@ -51,6 +54,7 @@ function App() {
     if (notepadInput !== "" && !notepads.includes(notepadInput)) {
       const newNotepads = [...notepads, notepadInput];
       setNotepads(newNotepads);
+      localStorage.setItem('notepads', JSON.stringify(newNotepads));
       setNotepadInput("");
     }
   }
@@ -60,6 +64,7 @@ function App() {
       const index = notepads.indexOf(currentNotepad);
       const newNotepads = notepads.filter((_, i) => (i != index));
       setNotepads(newNotepads);
+      localStorage.setItem('notepads', JSON.stringify(newNotepads));
       setCurrentNotepad(newNotepads[0]);
     }
   }
