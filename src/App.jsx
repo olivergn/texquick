@@ -25,13 +25,13 @@ function App() {
     if (!currentNotepad && notepads.length > 0) {
       setCurrentNotepad(notepads[0]);
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (notesRef.current) {
       notesRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  });
+  }, [elements]);
 
   useEffect(() => {
     if (localStorage.getItem('elements')) {
