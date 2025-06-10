@@ -193,7 +193,7 @@ function App() {
       <div id='bg-right'></div>
 
       <div className='sidebar-container'>
-        <select name='notepads' id='notepad-select' className='med-button' onChange={handleNotepadChange}>
+        <select name='notepads' id='notepad-select' className='med-button' value={currentNotepad} onChange={handleNotepadChange}>
         {notepads.map((notepad, i) => renderOption(notepad, i))}
       </select>
       <p>Current notepad: {currentNotepad}</p>
