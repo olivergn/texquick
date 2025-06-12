@@ -4,23 +4,81 @@ import './App.css'
 import 'katex/dist/katex.min.css'
 
 function App() {
+  /* Constants */
+
+  const [notepads, setNotepads] = useState(() => {
+    const stored = localStorage.getItem('notepads');
+    return stored ? JSON.parse(stored) : ["Default"];
+  });
+  const [currentNotepad, setCurrentNotepad] = useState("");
+  const [notepadInput, setNotepadInput] = useState("");
+
   const [mode, setMode] = useState("text");
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
 
   const notesRef = useRef(null);
 
+  /* Effects */
+
+  useEffect(() => {
+    if (!currentNotepad && notepads.length > 0) {
+      setCurrentNotepad(notepads[0]);
+    }
+  }, []);
+
   useEffect(() => {
     if (notesRef.current) {
       notesRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  });
+  }, [elements]);
 
   useEffect(() => {
-    if (localStorage.getItem('elements')) {
-      setElements(JSON.parse(localStorage.getItem('elements')));
-    };
-  }, []);
+    if (localStorage.getItem(currentNotepad)) {
+      setElements(JSON.parse(localStorage.getItem(currentNotepad)));
+    } else {
+      setElements([]);
+    }
+  }, [currentNotepad]);
+
+  /* Notepads */
+
+  function handleNotepadChange(e) {
+    const selected = e.target.value;
+    setCurrentNotepad(selected);
+  }
+
+  function handleNotepadInputChange(e) {
+    setNotepadInput(e.target.value);
+  }
+
+  function handleCreateNotepad() {
+    if (notepadInput !== "" && !notepads.includes(notepadInput)) {
+      const newNotepads = [...notepads, notepadInput];
+      setNotepads(newNotepads);
+      localStorage.setItem('notepads', JSON.stringify(newNotepads));
+      setNotepadInput("");
+    }
+  }
+
+  function handleDeleteNotepad() {
+    if (notepads.length > 1) {
+      const index = notepads.indexOf(currentNotepad);
+      const newNotepads = notepads.filter((_, i) => (i != index));
+      setNotepads(newNotepads);
+      localStorage.setItem('notepads', JSON.stringify(newNotepads));
+      localStorage.removeItem(currentNotepad);
+      setCurrentNotepad(newNotepads[0]);
+    }
+  }
+
+  function renderOption(notepad, i) {
+    return (
+      <option key={i} value={notepad}>{notepad}</option>
+    )
+  }
+
+  /* Notes */
 
   function parseMath(str) {
     return str.replaceAll("\\[", "\\begin{bmatrix}")
@@ -49,35 +107,35 @@ function App() {
     const newElement = { mode, content: input, isEditing: false, editValue: input };
     const newElements = [...elements, newElement];
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
     setInput("");
   }
 
   function handleDelete(index) {
     const newElements = elements.filter((_, i) => (i != index));
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
   }
 
   function handleEdit(index) {
     const newElements = [...elements];
     newElements[index].isEditing = !newElements[index].isEditing;
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
   }
 
   function handleEditChange(index, value) {
     const newElements = [...elements];
     newElements[index].editValue = value;
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
   }
 
   function handleEditSubmit(index) {
     const newElements = [...elements];
     newElements[index].content = elements[index].editValue;
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
     handleEdit(index);
   }
 
@@ -85,13 +143,13 @@ function App() {
     const newElements = [...elements];
     newElements[index].editValue = elements[index].content;
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
     handleEdit(index);
   }
 
   function handleClear() {
     setElements([]);
-    localStorage.removeItem('elements');
+    localStorage.removeItem(currentNotepad);
   }
 
   function renderNote(el, i) {
@@ -142,23 +200,32 @@ function App() {
       <div id='bg-left'></div>
       <div id='bg-right'></div>
 
+      <div className='sidebar-container'>
+        <select name='notepads' id='notepad-select' className='med-button' value={currentNotepad} onChange={handleNotepadChange}>
+        {notepads.map((notepad, i) => renderOption(notepad, i))}
+      </select>
+      <input type="text" id='notepad-input' className='med-button' value={notepadInput} onChange={handleNotepadInputChange} />
+      <button id='notepad-create' className='med-button' onClick={handleCreateNotepad}>Create Notepad</button>
+      <button id='notepad-delete' className='med-button' onClick={handleDeleteNotepad}>Delete Notepad</button>
+      </div>
+
       <div className='notes-container'>
         {elements.map((el, i) => renderNote(el, i))}
         <div id='notes-ending' ref={notesRef}></div>
       </div>
 
       <button id='clear-button' className='big-button' onClick={handleClear}>Clear</button>
-        
-        <form onSubmit={handleSubmit}>
-          <div className='toolbar'>
-            <select name='modes' id='mode-select' className='big-button' onChange={handleModeChange}>
-              <option value="text">Text</option>
-              <option value="math">Math</option>
-            </select>
-            <input type='text' id='text-input' value={input} onChange={handleInputChange} />
-            <button type='submit' id='text-submit' className='big-button'>Send</button>
-          </div>
-        </form>
+
+      <form onSubmit={handleSubmit}>
+        <div className='toolbar'>
+          <select name='modes' id='mode-select' className='big-button' onChange={handleModeChange}>
+            <option value="text">Text</option>
+            <option value="math">Math</option>
+          </select>
+          <input type='text' id='text-input' value={input} onChange={handleInputChange} />
+          <button type='submit' id='text-submit' className='big-button'>Send</button>
+        </div>
+      </form>
     </>
   )
 }
