@@ -95,7 +95,7 @@
 
   position: fixed;
   top: 1vh;
-  right: calc(100% - 11.75vw);
+  left: calc(100% - 11.75vw);
 }
 
 .sidebar-container * {
