@@ -67,6 +67,7 @@ function App() {
       const newNotepads = notepads.filter((_, i) => (i != index));
       setNotepads(newNotepads);
       localStorage.setItem('notepads', JSON.stringify(newNotepads));
+      localStorage.removeItem(currentNotepad);
       setCurrentNotepad(newNotepads[0]);
     }
   }
