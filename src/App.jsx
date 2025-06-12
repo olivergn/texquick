@@ -203,7 +203,6 @@ function App() {
         <select name='notepads' id='notepad-select' className='med-button' value={currentNotepad} onChange={handleNotepadChange}>
         {notepads.map((notepad, i) => renderOption(notepad, i))}
       </select>
-      <p>Current notepad: {currentNotepad}</p>
       <input type="text" id='notepad-input' className='med-button' value={notepadInput} onChange={handleNotepadInputChange} />
       <button id='notepad-create' className='med-button' onClick={handleCreateNotepad}>Create Notepad</button>
       <button id='notepad-delete' className='med-button' onClick={handleDeleteNotepad}>Delete Notepad</button>
