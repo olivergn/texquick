@@ -34,10 +34,12 @@ function App() {
   }, [elements]);
 
   useEffect(() => {
-    if (localStorage.getItem('elements')) {
-      setElements(JSON.parse(localStorage.getItem('elements')));
-    };
-  }, []);
+    if (localStorage.getItem(currentNotepad)) {
+      setElements(JSON.parse(localStorage.getItem(currentNotepad)));
+    } else {
+      setElements([]);
+    }
+  }, [currentNotepad]);
 
   /* Notepads */
 
@@ -104,35 +106,35 @@ function App() {
     const newElement = { mode, content: input, isEditing: false, editValue: input };
     const newElements = [...elements, newElement];
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
     setInput("");
   }
 
   function handleDelete(index) {
     const newElements = elements.filter((_, i) => (i != index));
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
   }
 
   function handleEdit(index) {
     const newElements = [...elements];
     newElements[index].isEditing = !newElements[index].isEditing;
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
   }
 
   function handleEditChange(index, value) {
     const newElements = [...elements];
     newElements[index].editValue = value;
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
   }
 
   function handleEditSubmit(index) {
     const newElements = [...elements];
     newElements[index].content = elements[index].editValue;
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
     handleEdit(index);
   }
 
@@ -140,13 +142,13 @@ function App() {
     const newElements = [...elements];
     newElements[index].editValue = elements[index].content;
     setElements(newElements);
-    localStorage.setItem('elements', JSON.stringify(newElements));
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
     handleEdit(index);
   }
 
   function handleClear() {
     setElements([]);
-    localStorage.removeItem('elements');
+    localStorage.removeItem(currentNotepad);
   }
 
   function renderNote(el, i) {
