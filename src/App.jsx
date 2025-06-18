@@ -219,7 +219,11 @@ function App() {
       <div id='bg-left'></div>
       <div id='bg-right'></div>
 
-      <div className='sidebar-container'>
+      <div className='sidebar-container-left'>
+        <button className='med-button' onClick={handleDownloadText}>Download</button>
+      </div>
+
+      <div className='sidebar-container-right'>
         <select name='notepads' id='notepad-select' className='med-button' value={currentNotepad} onChange={handleNotepadChange}>
         {notepads.map((notepad, i) => renderOption(notepad, i))}
       </select>

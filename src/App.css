@@ -89,7 +89,16 @@
   height: 10vh;
 }
 
-.sidebar-container {
+.sidebar-container-left {
+  display: flex;
+  flex-direction: column;
+
+  position: fixed;
+  top: 1vh;
+  right: calc(100% - 11.75vw);
+}
+
+.sidebar-container-right {
   display: flex;
   flex-direction: column;
 
@@ -98,7 +107,10 @@
   left: calc(100% - 11.75vw);
 }
 
-.sidebar-container * {
+.sidebar-container-left * {
+  margin-bottom: 0.5vh;
+}
+.sidebar-container-right * {
   margin-bottom: 0.5vh;
 }
 
