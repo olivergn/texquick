@@ -195,6 +195,25 @@ function App() {
     )
   }
 
+  /* Downloads */
+  function handleDownloadText() {
+    let content = "";
+
+    for (const element of elements) {
+      content += element.content + "\n";
+    }
+
+    const blob = new Blob([content], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'TeXQuick Notes.txt';
+    link.click();
+
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <>
       <div id='bg-left'></div>
