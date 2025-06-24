@@ -214,13 +214,33 @@ function App() {
     URL.revokeObjectURL(url);
   }
 
+  function handleDownloadTeX() {
+    let content = "\\documentclass{article}\n\\begin{document}\n\t\\maketitle\n\t\\begin{itemize}";
+
+    for (const element of elements) {
+      content += "\n\t\t\\item " + element.content;
+    }
+
+    content += "\n\t\\end{itemize}\n\\end{document}";
+
+    const blob = new Blob([content], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'TeXQuick Notes.tex';
+    link.click();
+
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <>
       <div id='bg-left'></div>
       <div id='bg-right'></div>
 
       <div className='sidebar-container-left'>
-        <button className='med-button' onClick={handleDownloadText}>Download</button>
+        <button className='med-button' onClick={handleDownloadTeX}>Download</button>
       </div>
 
       <div className='sidebar-container-right'>
