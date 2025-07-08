@@ -200,6 +200,11 @@ function App() {
     let content = "";
 
     for (const element of elements) {
+      if (element.mode === "text") {
+        content += "\\t ";
+      } else {
+        content += "\\m ";
+      }
       content += element.content + "\n";
     }
 
@@ -215,11 +220,25 @@ function App() {
   }
 
   function handleDownloadTeX() {
-    let content = "\\documentclass{article}\n\\begin{document}\n\t\\maketitle\n\t\\begin{itemize}";
+    let content = "\\documentclass{article}\n\\setcounter{tocdepth}{4}\n\\setcounter{secnumdepth}{4}\n\\begin{document}\n\t\\begin{itemize}";
 
-    for (const element of elements) {
-      content += "\n\t\t\\item " + element.content;
-    }
+    // for (const element of elements) {
+    //   if (element.mode === "text") {
+    //     if (element.content.startsWith("####")) {
+    //       content += "\n\t\t\\paragraph{" + element.content.replace("####", "") + "}";
+    //     } else if (element.content.startsWith("###")) {
+    //       content += "\n\t\t\\subsubsection{" + element.content.replace("###", "") + "}";
+    //     } else if (element.content.startsWith("##")) {
+    //       content += "\n\t\t\\subsection{" + element.content.replace("##", "") + "}";
+    //     } else if (element.content.startsWith("#")) {
+    //       content += "\n\t\t\\section{" + element.content.replace("#", "") + "}";
+    //     } else {
+    //       content += "\n\t\t\\item " + element.content;
+    //     }
+    //   } else if (element.mode === "math") {
+    //     content += "\n\t\t\\[" + parseMath(element.content) + "\\]";
+    //   }
+    // }
 
     content += "\n\t\\end{itemize}\n\\end{document}";
 
@@ -240,7 +259,7 @@ function App() {
       <div id='bg-right'></div>
 
       <div className='sidebar-container-left'>
-        <button className='med-button' onClick={handleDownloadTeX}>Download</button>
+        <button className='med-button' onClick={handleDownloadText}>Download</button>
       </div>
 
       <div className='sidebar-container-right'>
