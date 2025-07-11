@@ -17,6 +17,8 @@ function App() {
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
 
+  const [uploaded, setUploaded] = useState([]);
+
   const notesRef = useRef(null);
 
   /* Effects */
@@ -219,38 +221,42 @@ function App() {
     URL.revokeObjectURL(url);
   }
 
-  function handleDownloadTeX() {
-    let content = "\\documentclass{article}\n\\setcounter{tocdepth}{4}\n\\setcounter{secnumdepth}{4}\n\\begin{document}\n\t\\begin{itemize}";
+  function handleUploadChange(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
 
-    // for (const element of elements) {
-    //   if (element.mode === "text") {
-    //     if (element.content.startsWith("####")) {
-    //       content += "\n\t\t\\paragraph{" + element.content.replace("####", "") + "}";
-    //     } else if (element.content.startsWith("###")) {
-    //       content += "\n\t\t\\subsubsection{" + element.content.replace("###", "") + "}";
-    //     } else if (element.content.startsWith("##")) {
-    //       content += "\n\t\t\\subsection{" + element.content.replace("##", "") + "}";
-    //     } else if (element.content.startsWith("#")) {
-    //       content += "\n\t\t\\section{" + element.content.replace("#", "") + "}";
-    //     } else {
-    //       content += "\n\t\t\\item " + element.content;
-    //     }
-    //   } else if (element.mode === "math") {
-    //     content += "\n\t\t\\[" + parseMath(element.content) + "\\]";
-    //   }
-    // }
+      reader.onload = (e) => {
+        const fileContent = e.target.result;
+        const lines = fileContent.split("\n");
+        setUploaded(lines);
+      }
 
-    content += "\n\t\\end{itemize}\n\\end{document}";
+      reader.onerror = (e) => {
+        console.error("Error reading file:", e.target.error);
+      }
 
-    const blob = new Blob([content], {type: 'text/plain'});
-    const url = URL.createObjectURL(blob);
+      reader.readAsText(file);
+    }
+  }
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'TeXQuick Notes.tex';
-    link.click();
+  function handleUpload() {
+    const newElements = [...elements];
 
-    URL.revokeObjectURL(url);
+    for (const line of uploaded) {
+      let newElement;
+
+      if (line.startsWith("\\t ")) {
+        const textContent = line.replace("\\t ", "");
+        newElement = { mode: "text", content: textContent, isEditing: false, editValue: input };
+      } else if (line.startsWith("\\m ")) {
+        const textContent = line.replace("\\m ", "");
+        newElement = { mode: "math", content: textContent, isEditing: false, editValue: input };
+      }
+      if (newElement) newElements.push(newElement);
+    }
+    setElements(newElements);
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
   }
 
   return (
@@ -260,8 +266,8 @@ function App() {
 
       <div className='sidebar-container-left'>
         <button className='med-button' onClick={handleDownloadText}>Download</button>
-        <button className='med-button'>Upload</button>
-        <input type="file" id='upload-file' className='med-button' />
+        <button className='med-button' onClick={handleUpload}>Upload</button>
+        <input type="file" id='upload-file' className='med-button' onChange={handleUploadChange} />
       </div>
 
       <div className='sidebar-container-right'>
