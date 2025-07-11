@@ -260,6 +260,8 @@ function App() {
 
       <div className='sidebar-container-left'>
         <button className='med-button' onClick={handleDownloadText}>Download</button>
+        <button className='med-button'>Upload</button>
+        <input type="file" id='upload-file' className='med-button' />
       </div>
 
       <div className='sidebar-container-right'>
