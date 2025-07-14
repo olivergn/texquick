@@ -17,6 +17,7 @@ function App() {
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
 
+  const [showImportPopup, setShowImportPopup] = useState(false);
   const [uploaded, setUploaded] = useState([]);
 
   const notesRef = useRef(null);
@@ -240,7 +241,7 @@ function App() {
     }
   }
 
-  function handleUpload() {
+  function handleImport() {
     const newElements = [...elements];
 
     for (const line of uploaded) {
@@ -257,6 +258,16 @@ function App() {
     }
     setElements(newElements);
     localStorage.setItem(currentNotepad, JSON.stringify(newElements));
+
+    closeImportPopup();
+  }
+
+  function openImportPopup() {
+    setShowImportPopup(true);
+  }
+
+  function closeImportPopup() {
+    setShowImportPopup(false);
   }
 
   return (
@@ -264,10 +275,18 @@ function App() {
       <div id='bg-left'></div>
       <div id='bg-right'></div>
 
+      {showImportPopup && (
+          <div className='popup-item'>
+            <h3>Import Notepad</h3>
+            <input type="file" id='upload-file' className='med-button' onChange={handleUploadChange} />
+            <button className='med-button' id='import-cancel' onClick={closeImportPopup}>Cancel</button>
+            <button className='med-button' id='import-confirm' onClick={handleImport}>Confirm</button>
+          </div>
+      )}
+
       <div className='sidebar-container-left'>
         <button className='med-button' onClick={handleDownloadText}>Download</button>
-        <button className='med-button' onClick={handleUpload}>Upload</button>
-        <input type="file" id='upload-file' className='med-button' onChange={handleUploadChange} />
+        <button className='med-button' onClick={openImportPopup}>Import</button>
       </div>
 
       <div className='sidebar-container-right'>

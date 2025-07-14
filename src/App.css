@@ -114,6 +114,26 @@
   margin-bottom: 0.5vh;
 }
 
+.popup-item {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  margin-top: -30vh;
+  margin-left: -25vw;
+
+  width: 50vw;
+  height: 50vh;
+
+  border: 5px solid black;
+  border-radius: 20px;
+
+  background-color: #eeeeee;
+  text-align: center;
+
+  z-index: 1000;
+}
+
 /* #notepad-select {
 
 }
@@ -130,6 +150,16 @@
 #notepad-delete {
   background-color: #be2525;
   color: #222222;
+}
+
+#import-cancel {
+  background-color: #888888;
+  color: #eeeeee;
+}
+
+#import-confirm {
+  background-color: #0055aa;
+  color: #ffffff;
 }
 
 /* Bottom */
