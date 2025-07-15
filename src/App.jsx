@@ -267,6 +267,8 @@ function App() {
   }
 
   function closeImportPopup() {
+    setUploaded([]);
+
     setShowImportPopup(false);
   }
 
