@@ -216,7 +216,7 @@ function App() {
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'TeXQuick Notes.txt';
+    link.download = currentNotepad + '.txt';
     link.click();
 
     URL.revokeObjectURL(url);
@@ -276,12 +276,14 @@ function App() {
       <div id='bg-right'></div>
 
       {showImportPopup && (
-          <div className='popup-item'>
-            <h3>Import Notepad</h3>
-            <input type="file" id='upload-file' className='med-button' onChange={handleUploadChange} />
+        <div className='popup-item'>
+          <h1>Import Notepad</h1>
+          <input type="file" className='med-button' id='import-upload' onChange={handleUploadChange} />
+          <div className='popup-button-container'>
             <button className='med-button' id='import-cancel' onClick={closeImportPopup}>Cancel</button>
             <button className='med-button' id='import-confirm' onClick={handleImport}>Confirm</button>
           </div>
+        </div>
       )}
 
       <div className='sidebar-container-left'>

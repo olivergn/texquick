@@ -115,6 +115,9 @@
 }
 
 .popup-item {
+  display: flex;
+  flex-direction: column;
+
   position: fixed;
   top: 50%;
   left: 50%;
@@ -132,6 +135,15 @@
   text-align: center;
 
   z-index: 1000;
+}
+
+.popup-button-container {
+  display: flex;
+  flex-direction: row;
+
+  margin-top: 15vh;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* #notepad-select {
@@ -152,12 +164,21 @@
   color: #222222;
 }
 
+#import-upload {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #import-cancel {
+  margin-right: 5px;
+
   background-color: #888888;
   color: #eeeeee;
 }
 
 #import-confirm {
+  margin-left: 10px;
+
   background-color: #0055aa;
   color: #ffffff;
 }
