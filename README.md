@@ -13,6 +13,7 @@ This project was created to solve a problem I encountered during my university s
 - User math input is automatically embedded as LaTeX expressions via KaTeX.
 - Shortcuts help speed up LaTeX expressions for matrices, inequalities, and logic.
 - Multiple notepads can be managed with different contents.
+- Notepads can be exported and imported via .txt files.
 
 ## Planned features
 - Support for drag-and-drop rearranging notes.

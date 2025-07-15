@@ -17,6 +17,9 @@ function App() {
   const [input, setInput] = useState("");
   const [elements, setElements] = useState([]);
 
+  const [showImportPopup, setShowImportPopup] = useState(false);
+  const [uploaded, setUploaded] = useState([]);
+
   const notesRef = useRef(null);
 
   /* Effects */
@@ -195,12 +198,102 @@ function App() {
     )
   }
 
+  /* Downloads */
+  function handleDownloadText() {
+    let content = "";
+
+    for (const element of elements) {
+      if (element.mode === "text") {
+        content += "\\t ";
+      } else {
+        content += "\\m ";
+      }
+      content += element.content + "\n";
+    }
+
+    const blob = new Blob([content], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = currentNotepad + '.txt';
+    link.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  function handleUploadChange(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const fileContent = e.target.result;
+        const lines = fileContent.split("\n");
+        setUploaded(lines);
+      }
+
+      reader.onerror = (e) => {
+        console.error("Error reading file:", e.target.error);
+      }
+
+      reader.readAsText(file);
+    }
+  }
+
+  function handleImport() {
+    const newElements = [...elements];
+
+    for (const line of uploaded) {
+      let newElement;
+
+      if (line.startsWith("\\t ")) {
+        const textContent = line.replace("\\t ", "");
+        newElement = { mode: "text", content: textContent, isEditing: false, editValue: input };
+      } else if (line.startsWith("\\m ")) {
+        const textContent = line.replace("\\m ", "");
+        newElement = { mode: "math", content: textContent, isEditing: false, editValue: input };
+      }
+      if (newElement) newElements.push(newElement);
+    }
+    setElements(newElements);
+    localStorage.setItem(currentNotepad, JSON.stringify(newElements));
+
+    closeImportPopup();
+  }
+
+  function openImportPopup() {
+    setShowImportPopup(true);
+  }
+
+  function closeImportPopup() {
+    setUploaded([]);
+
+    setShowImportPopup(false);
+  }
+
   return (
     <>
       <div id='bg-left'></div>
       <div id='bg-right'></div>
 
-      <div className='sidebar-container'>
+      {showImportPopup && (
+        <div className='popup-item'>
+          <h1>Import Notepad</h1>
+          <input type="file" className='med-button' id='import-upload' onChange={handleUploadChange} />
+          <div className='popup-button-container'>
+            <button className='med-button' id='import-cancel' onClick={closeImportPopup}>Cancel</button>
+            <button className='med-button' id='import-confirm' onClick={handleImport}>Confirm</button>
+          </div>
+        </div>
+      )}
+
+      <div className='sidebar-container-left'>
+        <button className='med-button' onClick={handleDownloadText}>Download</button>
+        <button className='med-button' onClick={openImportPopup}>Import</button>
+      </div>
+
+      <div className='sidebar-container-right'>
         <select name='notepads' id='notepad-select' className='med-button' value={currentNotepad} onChange={handleNotepadChange}>
         {notepads.map((notepad, i) => renderOption(notepad, i))}
       </select>
